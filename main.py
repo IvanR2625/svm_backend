@@ -33,6 +33,15 @@ print("✅ Genera count:", len(genera_order))
 # ----------------------------
 app = FastAPI()
 
+
+# Simple root route so visiting the URL shows a welcome message
+@app.get("/")
+def read_root():
+    return {
+        "message": "✅ SVM backend is live! Use POST /predict to send genera and read counts for prediction."
+    }
+
+
 # Allow CORS for your front-end
 origins = ["*"]  # replace "*" with your front-end URL in production
 app.add_middleware(
@@ -42,12 +51,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 # ----------------------------
 # Request schema
 # ----------------------------
 class PredictionInput(BaseModel):
-    reads: list[float]   # abundances
-    genera: list[str]    # corresponding genera names
+    reads: list[float]  # abundances
+    genera: list[str]  # corresponding genera names
+
 
 # ----------------------------
 # Prediction endpoint
